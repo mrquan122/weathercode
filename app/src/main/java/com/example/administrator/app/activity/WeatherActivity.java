@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.administrator.app.R;
+import com.example.administrator.app.db.CoolWeatherDB;
 import com.example.administrator.app.util.HttpCallbacListener;
 import com.example.administrator.app.util.HttpUtil;
 import com.example.administrator.app.util.Utility;
@@ -67,7 +68,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener
      */
     private Button refreshWeather;
 
-
+    private CoolWeatherDB coolWeatherDB;
     @Override
     protected void onCreate (Bundle saveInstanceState)  {
         super.onCreate(saveInstanceState);
@@ -79,13 +80,26 @@ public class WeatherActivity extends Activity implements View.OnClickListener
         publishText = (TextView)findViewById(R.id.publish_text);
         weatherDespText = (TextView)findViewById(R.id.weather_desp);
         temp1Text= (TextView)findViewById(R.id.temp1);
-
         currentDateText = (TextView)findViewById(R.id.current_date);
         swithCity = (Button)findViewById(R.id.swith_city);
         refreshWeather= (Button) findViewById(refresh_weather);
-        String cityCode= getIntent().getStringExtra("city_code");
+        coolWeatherDB = CoolWeatherDB.getInstance(this);
         swithCity.setOnClickListener(this);
         refreshWeather.setOnClickListener(this);
+        String tag =getIntent().getStringExtra("tag");
+        String cityCode=null;
+        switch (tag){
+            case "searchActivity":
+
+                String cityName = getIntent().getStringExtra("city_name");
+                cityCode = coolWeatherDB.loadAllcity(cityName);
+            case "ChooseAreaActivity":
+                cityCode = getIntent().getStringExtra("city_code");
+        }
+
+
+
+
         if(!TextUtils.isEmpty(cityCode)){
             //有县级代号时去查询天气
             publishText.setText("同步中...");
@@ -97,6 +111,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener
         }
 
     }
+
+
    @Override
     public void onClick(View v) {
         switch (v.getId()) {

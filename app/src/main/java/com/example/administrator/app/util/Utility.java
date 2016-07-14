@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.administrator.app.db.CoolWeatherDB;
+import com.example.administrator.app.model.Allcity;
 import com.example.administrator.app.model.City;
 import com.example.administrator.app.model.Province;
 
@@ -34,6 +35,40 @@ import javax.xml.parsers.ParserConfigurationException;
  * Created by Administrator on 2016/3/15.
  */
 public class Utility {
+    public static void handleRawResponse(InputStream response, CoolWeatherDB coolWeatherDB)
+            throws XmlPullParserException, IOException{
+        Allcity allcity  =new Allcity();
+        XmlPullParser parser=null;
+        parser=XmlPullParserFactory.newInstance().newPullParser();
+        parser.setInput(response,"UTF-8");
+        int eventType=0;
+        eventType=parser.getEventType();
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            switch (eventType) {
+                case XmlPullParser.START_DOCUMENT:
+
+                    break;
+                case XmlPullParser.START_TAG:
+                    if (parser.getName().equals("County")) {
+                        allcity.setCityName(parser.getAttributeValue(null,"name"));
+                        allcity.setCityCode(parser.getAttributeValue(null, "code"));
+                    }
+                    break;
+                case XmlPullParser.END_TAG:
+                    if (parser.getName().equals("china")) {
+                        coolWeatherDB.saveAll_city(allcity);
+
+
+                    }
+                    break;
+            }
+
+            eventType = parser.next();
+
+        }
+
+    }
+
     public static boolean handleProvincesResponse(InputStream response, CoolWeatherDB coolWeatherDB)
             throws XmlPullParserException, IOException {
         List<Province> provinceList = null;

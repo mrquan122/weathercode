@@ -33,6 +33,10 @@ public class CoolWeatherOpenHelper extends SQLiteOpenHelper {
             + "county_name text,"
             + "county_code text,"
             + "city_id integer)";
+    public static final  String CREATE_ALLCITY ="create table All_city ("
+            + "id integer primary key autoincrement,"
+            + "city_name text,"
+            + "city_code text)";
 public CoolWeatherOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version){
   super(context,name ,factory,version);
 }
@@ -41,7 +45,8 @@ public  void onCreate(SQLiteDatabase db){
     Log.i("province","onCreate open");
     db.execSQL(CREATE_PROVINCE);   //创建province表
     db.execSQL(CREATE_CITY);    //创建city表
-    db.execSQL(CREATE_COUTY);   //创建couty表
+    db.execSQL(CREATE_COUTY);
+    db.execSQL(CREATE_ALLCITY);
 }
  @Override
 public  void onUpgrade (SQLiteDatabase db,int oldVersion ,int newVersion){

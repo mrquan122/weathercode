@@ -109,13 +109,22 @@ public class ChooseAreaActivity extends Activity {
                         String cityCode = cityList.get(index).getCityCode();
                         Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
                         intent.putExtra("city_code", cityCode);
+                        intent.putExtra("tag","chooseAreaActivity");
                         startActivity(intent);
                         finish();
                     }
                 }
             });
             queryProvinces();//加载省级数据
+            InputStream stream =getResources().openRawResource(R.raw.city);
+        try {
+            Utility.handleRawResponse(stream,coolWeatherDB);
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+    }
 
     /**
      * 查询全国所有的省，优先从数据库查询，如果没有查询到再去服务器上查询；

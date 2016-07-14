@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.administrator.app.model.Allcity;
 import com.example.administrator.app.model.City;
 import com.example.administrator.app.model.County;
 import com.example.administrator.app.model.Province;
@@ -46,6 +47,38 @@ public class CoolWeatherDB {
             coolWeatherDB =new CoolWeatherDB(context);
         }
         return  coolWeatherDB;
+    }
+
+    public  void  saveAll_city (Allcity allcity){
+        if (allcity!=null){
+            ContentValues values =new ContentValues();
+            values.put("city_name",allcity.getCityName());
+            values.put("city_code",allcity.getCityCode());
+            db.insert("All_city",null,values);
+
+        }
+
+    }
+
+    /**
+     * 从数据库读取全国所有的省份信息
+     */
+
+    public String loadAllcity(String cityName){
+        String cityCode = null;
+        Cursor cursor =db.query("All_city",null,"city_name=?",new String[]{cityName},null,null,null);
+        if (cursor.moveToFirst()){
+            do {
+
+             cityCode= cursor.getString(cursor.getColumnIndex("city_code"));
+
+
+
+            } while (cursor.moveToNext());
+
+        }
+
+      return cityCode;
     }
     /**
      * 将Province 实例储存到数据库
