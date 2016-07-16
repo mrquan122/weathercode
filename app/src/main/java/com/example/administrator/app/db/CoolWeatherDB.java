@@ -56,6 +56,9 @@ public class CoolWeatherDB {
             values.put("city_code",allcity.getCityCode());
             db.insert("All_city",null,values);
 
+            Log.i("All_city",allcity.getCityName());
+            Log.i("All_city",allcity.getCityCode());
+
         }
 
     }
@@ -66,19 +69,25 @@ public class CoolWeatherDB {
 
     public String loadAllcity(String cityName){
         String cityCode = null;
+        String city=null;
         Cursor cursor =db.query("All_city",null,"city_name=?",new String[]{cityName},null,null,null);
+
         if (cursor.moveToFirst()){
             do {
 
-             cityCode= cursor.getString(cursor.getColumnIndex("city_code"));
+              cityCode= cursor.getString(cursor.getColumnIndex("city_code"));
+              city=cursor.getString(cursor.getColumnIndex("city_name"));
 
 
 
             } while (cursor.moveToNext());
-
+           Log.i("citytransform",cityCode);
         }
+        Log.i("城市转换代码",cityCode);
 
       return cityCode;
+
+
     }
     /**
      * 将Province 实例储存到数据库
@@ -102,6 +111,7 @@ public class CoolWeatherDB {
     public List<Province> loadProvinces(){
         List<Province>list =new ArrayList<Province>(39);
         Cursor cursor =db.query("Province",null,null,null,null,null,null);
+
         if (cursor.moveToFirst()){
             do {
                 Province province = new Province();

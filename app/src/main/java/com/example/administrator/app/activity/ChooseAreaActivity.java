@@ -87,6 +87,7 @@ public class ChooseAreaActivity extends Activity {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         if (prefs.getBoolean("city_selected", false) && !isFromWeatherActivity) {
             Intent intent = new Intent(this, WeatherActivity.class);
+             intent.putExtra("tag","ChooseAreaActivity");
             startActivity(intent);
             finish();
             return;
@@ -109,14 +110,22 @@ public class ChooseAreaActivity extends Activity {
                         String cityCode = cityList.get(index).getCityCode();
                         Intent intent = new Intent(ChooseAreaActivity.this, WeatherActivity.class);
                         intent.putExtra("city_code", cityCode);
-                        intent.putExtra("tag","chooseAreaActivity");
+                        intent.putExtra("tag","ChooseAreaActivity");
                         startActivity(intent);
                         finish();
                     }
                 }
             });
-            queryProvinces();//加载省级数据
-            InputStream stream =getResources().openRawResource(R.raw.city);
+            queryProvinces();//加载省级数
+            loadRawResources();
+
+
+
+    }
+
+    private void loadRawResources() {
+        InputStream stream =getResources().openRawResource(R.raw.city);
+
         try {
             Utility.handleRawResponse(stream,coolWeatherDB);
         } catch (XmlPullParserException e) {
@@ -124,6 +133,7 @@ public class ChooseAreaActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     /**

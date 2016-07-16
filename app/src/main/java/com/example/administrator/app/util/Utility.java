@@ -55,9 +55,8 @@ public class Utility {
                     }
                     break;
                 case XmlPullParser.END_TAG:
-                    if (parser.getName().equals("china")) {
+                    if (parser.getName().equals("County")) {
                         coolWeatherDB.saveAll_city(allcity);
-
 
                     }
                     break;
@@ -195,14 +194,16 @@ public static boolean handleWeatherResponse(Context context,InputStream response
     String weatherDesp = null;
     String publishTime = null;
     String cityId=null;
-
+    String imageCode01=null;
+    String imageCode02=null;
     cityName = jsonObject.getString("city");
     temp1 = jsonObject.getString("temp1");
      weatherDesp = jsonObject.getString("weather1");
      publishTime = jsonObject.getString("date_y");
      cityId=jsonObject.getString("cityid");
-
-    saveWeatherInfo(context, cityName, temp1,cityId ,weatherDesp , publishTime);
+    imageCode01=jsonObject.getString("img1");
+    imageCode02=jsonObject.getString("img2");
+    saveWeatherInfo(context, cityName, temp1,cityId ,weatherDesp , publishTime,imageCode01,imageCode02);
     Log.i("weatherinfo",cityName+temp1+"--");
 
     return true;
@@ -214,7 +215,7 @@ public static boolean handleWeatherResponse(Context context,InputStream response
      *
      */
     public static void saveWeatherInfo(Context context, String cityName,  String temp1,
-                                       String cityId, String weatherDesp,String publishTime){
+                                       String cityId, String weatherDesp,String publishTime,String imageCode01,String imageCode02){
       //  SimpleDateFormat sdf =new SimpleDateFormat("yyy年M月D日", Locale.CANADA);
         SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
         editor.putBoolean("city_selected",true);
@@ -223,6 +224,8 @@ public static boolean handleWeatherResponse(Context context,InputStream response
         editor.putString("city_code",cityId);
         editor.putString("weather1",weatherDesp);
         editor.putString("publish_time",publishTime);
+        editor.putString("img1",imageCode01);
+        editor.putString("img2",imageCode02);
       //  editor.putString("current_data",sdf.format(new Date()));
         editor.commit();
 

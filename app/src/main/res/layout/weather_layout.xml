@@ -1,21 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorPrimary">
+
     <RelativeLayout
         android:visibility="visible"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
-        <Button
-            android:id="@+id/swith_city"
-            android:text="切换"
+        android:layout_height="50dp"
+        android:background="#f5f3f3">
+
+        <android.support.v7.widget.CardView
+            app:cardBackgroundColor="#f5f3f3"
+            app:cardElevation="5dp"
+            app:cardMaxElevation="10dp"
+            app:cardCornerRadius="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/home"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
- />
+            >
+
+            <Button
+                android:id="@+id/swith_city"
+                android:text="切换"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/home"
+                />
+        </android.support.v7.widget.CardView>
+
 
 
         <TextView
@@ -26,25 +42,34 @@
             android:id="@+id/city_name"
             android:layout_centerVertical="true"
             android:layout_centerInParent="true" />
-        <Button
-            android:id="@+id/refresh_weather"
-            android:text="刷新"
+
+        <android.support.v7.widget.CardView
+            app:cardBackgroundColor="#f5f3f3"
+            app:cardElevation="5dp"
+            app:cardMaxElevation="10dp"
+            app:cardCornerRadius="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/refresh"
             android:layout_toRightOf="@id/city_name"
-            android:layout_marginLeft="70dp"
+            android:layout_marginLeft="70dp">
+            <Button
+                android:id="@+id/refresh_weather"
+                android:text="刷新"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/refresh"
+                />
 
-            />
+
+        </android.support.v7.widget.CardView>
 
 
     </RelativeLayout>
 
-     <RelativeLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#27A5F9">
+        android:layout_height="match_parent"
+        android:background="@drawable/weather">
         <TextView
             android:id="@+id/publish_text"
             android:layout_width="wrap_content"
@@ -54,30 +79,6 @@
             android:textSize="18sp"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
-
-        <LinearLayout
-            android:id="@+id/weather_info_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/current_date"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:gravity="center"
-                android:textColor="#FFF"
-                android:textSize="18sp"/>
-            <TextView
-                android:id="@+id/weather_desp"
-                android:layout_width="wrap_content"
-                android:layout_height="60dp"
-                android:layout_gravity="center_horizontal"
-                android:gravity="center"
-                android:textColor="#FFF"
-                android:textSize="40sp"/>
-
-
         <LinearLayout
 
             android:layout_width="wrap_content"
@@ -85,21 +86,86 @@
             android:layout_gravity="center_horizontal"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/temp1"
+                android:id="@+id/current_date"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
+                android:layout_height="40dp"
+                android:gravity="center"
                 android:textColor="#FFF"
-                android:textSize="40sp"/>
-
-          />
-
-
-
-            </LinearLayout>
+                android:textSize="18sp"/>
 
         </LinearLayout>
 
+
+        <LinearLayout
+            android:id="@+id/weather_info_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+            <android.support.v7.widget.CardView
+                android:layout_width="200dp"
+                android:layout_height="100dp"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp">
+
+
+                <TextView
+                    android:id="@+id/weather_desp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
+                    android:textColor="#FFF"
+                    android:textSize="40sp"/>
+
+            </android.support.v7.widget.CardView>
+            <android.support.v7.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@android:color/transparent"
+                app:cardCornerRadius="5dp"
+                app:cardElevation="5dp">
+
+                <TextView
+                    android:id="@+id/temp1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="#FFF"
+                    android:textSize="40sp"
+                    android:typeface="normal"/>
+
+            </android.support.v7.widget.CardView>
+
+            <ImageView
+                android:id="@+id/image01"
+                android:background="@android:color/transparent"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                 />
+            <ImageView
+                android:id="@+id/image02"
+                android:background="@android:color/transparent"
+                android:layout_width="30dp"
+                android:layout_height="30dp" />
+
+               </LinearLayout>
+
+
+<android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            app:backgroundTint="#30469b"
+            app:borderWidth="0dp"
+            app:elevation="6dp"
+            app:fabSize="normal"
+            app:layout_anchorGravity="center|bottom"
+            app:pressedTranslationZ="12dp"
+            app:rippleColor="#a6a6a6" />
 
     </RelativeLayout>
 </LinearLayout>

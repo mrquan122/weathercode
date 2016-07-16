@@ -3,12 +3,17 @@ package com.example.administrator.app.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.FloatingActionButton;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -67,6 +72,9 @@ public class WeatherActivity extends Activity implements View.OnClickListener
      *更新天气按钮
      */
     private Button refreshWeather;
+    private FloatingActionButton fab;
+    private ImageView image01;
+    private ImageView image02;
 
     private CoolWeatherDB coolWeatherDB;
     @Override
@@ -83,9 +91,22 @@ public class WeatherActivity extends Activity implements View.OnClickListener
         currentDateText = (TextView)findViewById(R.id.current_date);
         swithCity = (Button)findViewById(R.id.swith_city);
         refreshWeather= (Button) findViewById(refresh_weather);
+        fab=(FloatingActionButton)findViewById(R.id.fab);
+        image01=(ImageView)findViewById(R.id.image01);
+        image02=(ImageView)findViewById(R.id.image02);
         coolWeatherDB = CoolWeatherDB.getInstance(this);
         swithCity.setOnClickListener(this);
         refreshWeather.setOnClickListener(this);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 =new Intent(WeatherActivity.this,searchActivity.class);
+                startActivity(intent1);
+
+            }
+        });
+
+
         String tag =getIntent().getStringExtra("tag");
         String cityCode=null;
         switch (tag){
@@ -93,6 +114,9 @@ public class WeatherActivity extends Activity implements View.OnClickListener
 
                 String cityName = getIntent().getStringExtra("city_name");
                 cityCode = coolWeatherDB.loadAllcity(cityName);
+                Log.i("CITYCODE",cityName);
+                Log.i("sercherCode",cityCode);
+                queryWeatherInfo(cityCode);
             case "ChooseAreaActivity":
                 cityCode = getIntent().getStringExtra("city_code");
         }
@@ -109,6 +133,8 @@ public class WeatherActivity extends Activity implements View.OnClickListener
             //没有县级代号时就直接显示本地天气
             showWeather();
         }
+
+
 
     }
 
@@ -133,6 +159,7 @@ public class WeatherActivity extends Activity implements View.OnClickListener
 
             default:
                 break;
+
 
         }
     }
@@ -194,9 +221,36 @@ public class WeatherActivity extends Activity implements View.OnClickListener
         currentDateText.setText(prefs.getString("publish_time","")
         );
         weatherInfoLayout.setVisibility(View.VISIBLE);
+         String imgCode=prefs.getString("img1","");
+         queryWeatherView(imgCode);
 
      }
+    private void queryWeatherView(String imgCode){
+        String address="http://m.weather.com.cn/img/a"+imgCode+".gif";
+        HttpUtil.sendHttpRequest(address, new HttpCallbacListener() {
+            @Override
+            public void onFinish(InputStream response) throws IOException, XmlPullParserException, JSONException {
+                Log.i("response",response.toString());
+                final Bitmap bitmap = BitmapFactory.decodeStream(response);
 
+                Log.i("bitmap",bitmap.toString());
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        image01.setImageBitmap(bitmap);
+                    //    image02.setImageBitmap(bitmap);
+                    }
+                });
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+
+            }
+
+        });
+    }
 
 
 }
